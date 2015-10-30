@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<string id="30000">Quality</string>
+	<string id="30001">Format</string>
+	<string id="30002">Couldn't access server!</string>
+	<string id="30003">Loading...</string>
+	<string id="30004">Opening video...</string>
+	<string id="30005">Video versions not found!</string>
+	<string id="30006">Next</string>
+  <string id="30007">FireTV hack</string>
+</strings>

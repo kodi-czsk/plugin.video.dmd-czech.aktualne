@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<string id="30000">Kvalita</string>
+	<string id="30001">Formát</string>
+	<string id="30002">Nepodařilo se přistoupit na server!</string>
+	<string id="30003">Načítání...</string>
+	<string id="30004">Otevírání videa...</string>
+	<string id="30005">Verze videa nenalezeny!</string>
+	<string id="30006">Další</string>
+  <string id="30007">FireTV hack</string>
+</strings>
