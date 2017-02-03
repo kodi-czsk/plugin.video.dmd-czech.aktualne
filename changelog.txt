@@ -1,3 +1,5 @@
+2017-02-03 [2.0.2]
+ * Fixes RegEx for getting link
 2015-10-29 [2.0.1]
  * Added support of FireTV. There is some strange bug, causing desynchronization
 of video and audio always in the first video in the playlist. 
@@ -5,7 +7,7 @@ By activating FireTV hack, all files are added twice as a playlist and second
 video is then playing without problems. I don't know better solution for now. 
  * Added fanart image loading  
 2015-10-21 [2.0.0]
- * Now supports whole aktualne.cz, based on dvtv plugin by ätÏp·n Ort
+ * Now supports whole aktualne.cz, based on dvtv plugin by ≈†t√¨p√°n Ort
 2015-05-20 [1.2.3]
  * Fixed listing episodes (#1 by sWski)
 2014-10-25 [1.2.1]
