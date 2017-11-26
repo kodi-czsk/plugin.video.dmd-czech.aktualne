@@ -1,3 +1,5 @@
+2017-11-26 [2.0.2]
+ * Nová ikona
 2017-02-03 [2.0.2]
  * Fixes RegEx for getting link
 2015-10-29 [2.0.1]
