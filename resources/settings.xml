@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-    <setting id="quality" type="labelenum" label="30000" values="180p|360p|720p" default="" />
+    <setting id="quality" type="labelenum" label="30000" values="180p|360p|720p|1080p" default="" />
     <setting id="format" type="labelenum" label="30001" values="MP4|WebM" default="MP4" />
     <setting type="sep"/>
     <setting id="firetvhack" type="bool" label="30007" default="false"/>
