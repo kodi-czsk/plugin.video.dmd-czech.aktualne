@@ -27,7 +27,6 @@ _baseurl_ = 'http://video.aktualne.cz/'
 _homepage_ = 'http://video.aktualne.cz/forcedevice/smart/'
 _UserAgent_ = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
 _quality_ = _addon_.getSetting('quality')
-_format_ = 'video/' + _addon_.getSetting('format').lower()
 _firetvhack_ = _addon_.getSetting('firetvhack') == "true"
 home = _addon_.getAddonInfo('path')
 _icon_ = xbmc.translatePath( os.path.join(home, 'resources/media/ikona-aktualne-57x57.png' ) )
@@ -159,12 +158,11 @@ def playUrl(url):
 					sources = detail['MP4']
 					for version in sources:
 						url = version['src']
-						mime = version['type']
 						quality = version['label']
 						li = xbmcgui.ListItem(title)
 						li.setThumbnailImage(image)
 						li.addStreamInfo('video', {'language': 'cs'})
-						if (quality == _quality_ and mime == _format_):
+						if (quality == _quality_):
 							xbmc.PlayList(1).add(url, li)
 							if twice:
 								xbmc.PlayList(1).add(url, li)
