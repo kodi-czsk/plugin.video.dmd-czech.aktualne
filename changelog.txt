@@ -1,6 +1,8 @@
-2018-12-14 [2.0.4]
+2018-12-14 [2.0.5]
  * Fixed playback for new web player
-2017-11-26 [2.0.2]
+2018-05-16 [2.0.4]
+ * Přidáno Full HD
+2017-11-26 [2.0.3]
  * Nová ikona
 2017-02-03 [2.0.2]
  * Fixes RegEx for getting link
