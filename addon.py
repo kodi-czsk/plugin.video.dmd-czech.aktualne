@@ -139,7 +139,9 @@ def playUrl(url):
 		image = re.sub('<meta property="og:image" content="', '', image).replace('">', '')
 		description = re.compile('<meta property="og:description" content=".*">').search(httpdata).group(0)
 		description = re.sub('<meta property="og:description" content="', '', description).replace('">', '')
-		videos = re.compile('tracks: {.*}]},', re.S).findall(httpdata)
+		videos = re.compile('tracks:(?:.(?!\}\]\}))*.\}\]\}', re.S).findall(httpdata)
+		if len(videos) > 1:  # last item in playlist is doubled on page
+			del videos[-1]
 		if videos:
 			pl=xbmc.PlayList(1)
 			pl.clear()
