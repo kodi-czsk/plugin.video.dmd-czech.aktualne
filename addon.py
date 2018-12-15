@@ -13,6 +13,7 @@ import HTMLParser
 import xml.etree.ElementTree as ET
 import email.utils as eut
 import time
+import json
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -26,7 +27,6 @@ _baseurl_ = 'http://video.aktualne.cz/'
 _homepage_ = 'http://video.aktualne.cz/forcedevice/smart/'
 _UserAgent_ = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
 _quality_ = _addon_.getSetting('quality')
-_format_ = 'video/' + _addon_.getSetting('format').lower()
 _firetvhack_ = _addon_.getSetting('firetvhack') == "true"
 home = _addon_.getAddonInfo('path')
 _icon_ = xbmc.translatePath( os.path.join(home, 'resources/media/ikona-aktualne-57x57.png' ) )
@@ -133,33 +133,41 @@ def playUrl(url):
 	if (not httpdata):
 		return
 	if httpdata: 
-		videos = re.compile('{[^i]*?image.*?sources:[^]]*?][^}]*?}', re.S).findall(httpdata)
+		title = re.compile('<meta property="og:title" content=".*">').search(httpdata).group(0)
+		title = re.sub('<meta property="og:title" content="', '', title).replace('">', '')
+		image = re.compile('<meta property="og:image" content=".*">').search(httpdata).group(0)
+		image = re.sub('<meta property="og:image" content="', '', image).replace('">', '')
+		description = re.compile('<meta property="og:description" content=".*">').search(httpdata).group(0)
+		description = re.sub('<meta property="og:description" content="', '', description).replace('">', '')
+		videos = re.compile('tracks:(?:.(?!\}\]\}))*.\}\]\}', re.S).findall(httpdata)
+		if len(videos) > 1:  # last item in playlist is doubled on page
+			del videos[-1]
 		if videos:
 			pl=xbmc.PlayList(1)
 			pl.clear()
 			if _firetvhack_ and len(videos) == 1:
-				twice = True        
+				twice = True
 			for video in videos:
-				image = 'http:' + re.compile('image: ?\'([^\']*?)\'').search(video).group(1).strip()
-				title = _htmlParser_.unescape(re.compile('title: ?\'([^\']*?)\'').search(video).group(1).strip())
-				description = re.compile('description: ?\'([^\']*?)\'').search(video);
-				if description:				
-					description = _htmlParser_.unescape(description.group(1).strip())
-				sources = re.compile('sources: ?(\[[^\]]*?])', re.S).search(video).group(1)
-				if sources:		
-					versions = re.compile('{[^}]*?}', re.S).findall(sources)
-					if versions:
-						for version in versions:
-							url = re.compile('"file":"([^"]*)"').search(version).group(1).replace('\/','/').strip()
-							mime = re.compile('"type":"([^"]*)"').search(version).group(1).replace('\/','/').strip()
-							quality = re.compile('"label":"([^"]*)"').search(version).group(1).strip()
-							li = xbmcgui.ListItem(title)
-							li.setThumbnailImage(image)							
-							li.addStreamInfo('video', {'language': 'cs'})
-							if (quality == _quality_ and mime == _format_):
+				video = re.sub(re.compile('\sadverttime:.*', re.S), '', video) # live streams workaround
+				video = video.replace('tracks: ', '')
+				video = re.sub(r'[,\w]*$','',video)
+				try:
+					detail = json.loads(video)
+				except ValueError:
+					showErrorNotification(_lang_(30005))
+					return
+				if detail.has_key('MP4'):
+					sources = detail['MP4']
+					for version in sources:
+						url = version['src']
+						quality = version['label']
+						li = xbmcgui.ListItem(title)
+						li.setThumbnailImage(image)
+						li.addStreamInfo('video', {'language': 'cs'})
+						if (quality == _quality_):
+							xbmc.PlayList(1).add(url, li)
+							if twice:
 								xbmc.PlayList(1).add(url, li)
-								if twice:
-									xbmc.PlayList(1).add(url, li)  					
 			xbmc.Player().play(pl)
 		else:
 			showErrorNotification(_lang_(30005))
