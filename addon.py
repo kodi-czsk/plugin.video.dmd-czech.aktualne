@@ -67,7 +67,8 @@ def fetchUrl(url, label):
 	pDialog.create(_dialogTitle_, label)
 	httpdata = ''	
 	try:
-		resp = urllib2.urlopen(url)
+		request = urllib2.Request(url, headers={'User-Agent': _UserAgent_, })
+		resp = urllib2.urlopen(request)
 		size = resp.info().getheader('Content-Length', 9000)
 		count=0
 		for line in resp:
@@ -190,7 +191,8 @@ def get_params():
         return param
 
 def listShows():
-    request = urllib2.Request(_homepage_)
+    hdr = {'User-Agent': _UserAgent_, }
+    request = urllib2.Request(_homepage_, headers=hdr)
     con = urllib2.urlopen(request)
     data = con.read()
     con.close()
