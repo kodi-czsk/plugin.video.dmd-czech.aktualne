@@ -1,3 +1,5 @@
+﻿2019-06-12 [2.0.6]
+ * Fixed plugin for changes in aktualne web
 2018-12-14 [2.0.5]
  * Fixed playback for new web player
 2018-05-16 [2.0.4]
